@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-responsive.min.css">
+    <title>Let's play</title>
+  </head>
+  <body>
+    <header>
+      <h1>Flicker</h1>
+      <hr /><br />
+    </header>
+    <div id="myCarousel" class="carousel" style="float: left">
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+    <footer>
+
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script>
+      var worker = new Worker("worker.js");
+      worker.onmessage = function(event) {
+        var count = 0;
+        console.log(event.data);
+        $.each(event.data.items, function(i,item){
+          if (count == 0) {
+            var new_item = $("<div>").addClass("item").addClass("active");
+            count = 1;
+          } else {
+            var new_item = $("<div>").addClass("item");
+          }
+          $("<img/>").attr("src", item.media.m).appendTo(new_item);
+          $(new_item).appendTo(".carousel-inner")
+          if ( i == 50 ) return false;
+        });
+        $('.carousel').carousel();
+      };
+
+      worker.postMessage('batavus');
+
+    </script>
+  </body>
+</html>
