@@ -25,27 +25,6 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
-    <script>
-      var worker = new Worker("worker.js");
-      worker.onmessage = function(event) {
-        var count = 0;
-        console.log(event.data);
-        $.each(event.data.items, function(i,item){
-          if (count == 0) {
-            var new_item = $("<div>").addClass("item").addClass("active");
-            count = 1;
-          } else {
-            var new_item = $("<div>").addClass("item");
-          }
-          $("<img/>").attr("src", item.media.m).appendTo(new_item);
-          $(new_item).appendTo(".carousel-inner")
-          if ( i == 50 ) return false;
-        });
-        $('.carousel').carousel();
-      };
-
-      worker.postMessage('batavus');
-
-    </script>
+    <script src="carousel_builder.js"> </script>
   </body>
 </html>
